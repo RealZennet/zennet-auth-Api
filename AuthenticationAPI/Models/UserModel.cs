@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using AuthenticationAPI.Controllers;
-using System.Web.Http;
 
 namespace AuthenticationAPI.Models
 {
@@ -18,12 +17,13 @@ namespace AuthenticationAPI.Models
 
         public void Save()
         {
-            this.Command.CommandText = $"INSERT INTO trabajador (ci, nom1, nom2, ape1, ape2, tel) VALUES({this.CI}, " +
-                $"{this.FirstName}" +
-                $"{this.SecondName}, " +
-                $"{this.FirstLastName}, " +
-                $"{this.SecondLastName}, " +
-                $"{this.PhoneNumber})";
+            this.Command.CommandText = $"INSERT INTO trabajador (ci, nom1, nom2, ape1, ape2, tel) VALUES (" +
+                $"'{this.CI}', " +
+                $"'{this.FirstName}'," +
+                $"'{this.SecondName}', " +
+                $"'{this.FirstLastName}', " +
+                $"'{this.SecondLastName}', " +
+                $"'{this.PhoneNumber}')";
             this.Command.ExecuteNonQuery();
         }
 
