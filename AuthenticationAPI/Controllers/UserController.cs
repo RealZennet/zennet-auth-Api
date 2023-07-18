@@ -8,7 +8,7 @@ using System.Web.Http;
 namespace AuthenticationAPI.Controllers
 {
     public class UserController : ApiController
-    {
+    { //Falta JWT
         [Route("api/users")]
         public IHttpActionResult Post([FromBody] UserModel user)
         {
