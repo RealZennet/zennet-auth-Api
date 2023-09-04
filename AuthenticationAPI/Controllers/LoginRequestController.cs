@@ -12,17 +12,19 @@ namespace AuthenticationAPI.Controllers
 
     public class LoginRequestController : ApiController
     {
-        [HttpGet]
-        [Route("api/login/v1/user")]
-        public IHttpActionResult Get()
+        [Route("api/v1/login")]
+        public IHttpActionResult Auth([FromBody] LoginRequestModel loginrequest)
         {
-            if ()
+            Dictionary<string, string> autenticacion = loginrequest.LoginRequest();
+
+            if (autenticacion["resultado"] == "OK")
             {
-
-                return Ok();
+                return Content(HttpStatusCode.OK, autenticacion);
             }
-
-            return Ok(true);
+            else
+            { 
+                return Unauthorized();
+            }
         }
 
     }
