@@ -207,13 +207,15 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\DatabaseConnector.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginRequestController.cs" />
+    <Compile Include="Controllers\TokenGenerator.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UsersViews.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\LoginRequest.cs" />
+    <Compile Include="Models\LoginRequestModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -10,12 +10,18 @@ using System.Web.Http;
 namespace AuthenticationAPI.Controllers
 {
 
-    public class LoginController : ApiController
+    public class LoginRequestController : ApiController
     {
         [HttpGet]
-        [Route("api/login/test")]
-        public IHttpActionResult test()
+        [Route("api/login/v1/user")]
+        public IHttpActionResult Get()
         {
+            if ()
+            {
+
+                return Ok();
+            }
+
             return Ok(true);
         }
 
