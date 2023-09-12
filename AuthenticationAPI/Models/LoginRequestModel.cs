@@ -19,43 +19,44 @@ namespace AuthenticationAPI.Models
 
         public Dictionary<string, string> LoginRequest()
         {
-            Dictionary<string, string> resultado = new Dictionary<string, string>();
+            Dictionary<string, string> result = new Dictionary<string, string>();
 
-            this.Command.CommandText = $"SELECT username, pass FROM trabajador WHERE username = '{this.UserName}'";
+            this.Command.CommandText = $"SELECT pass, id FROM trabajador WHERE username = '{this.UserName}'";
             this.Reader = this.Command.ExecuteReader();
 
             if (this.Reader.HasRows)
             {
                 this.Reader.Read();
                 string dbPassword = this.Reader["pass"].ToString();
+                int userId = Convert.ToInt32(this.Reader["id"]); // Obtén el ID del usuario
 
                 if (Hash.Content(this.Password) == dbPassword)
                 {
-                    resultado.Add("resultado", "OK");
+                    result.Add("resultado", "OK");
 
-                    if (IsInTable("camionero"))
+                    if (IsInTable("camionero", userId, "id_camionero"))
                     {
-                        resultado.Add("tipo", "camionero");
+                        result.Add("tipo", "camionero");
                     }
-                    else if (IsInTable("operario"))
+                    else if (IsInTable("operario", userId, "id_operario"))
                     {
-                        resultado.Add("tipo", "operario");
+                        result.Add("tipo", "operario");
                     }
                     else
                     {
-                        resultado.Add("tipo", "desconocido"); 
+                        result.Add("tipo", "no asignado");
                     }
 
-                    return resultado;
+                    return result;
                 }
             }
 
-            resultado.Add("resultado", "Error");
+            result.Add("resultado", "Error");
 
-            return resultado;
+            return result;
         }
 
-        private bool IsInTable(string tableName)
+        private bool IsInTable(string tableName, int userId, string idColumnName)
         {
             bool isInTable = false;
 
@@ -64,7 +65,7 @@ namespace AuthenticationAPI.Models
                 this.Reader.Close();
             }
 
-            this.Command.CommandText = $"SELECT COUNT(*) FROM {tableName} WHERE username = '{this.UserName}'";
+            this.Command.CommandText = $"SELECT COUNT(*) FROM {tableName} WHERE {idColumnName} = {userId}";
 
             try
             {
@@ -73,14 +74,12 @@ namespace AuthenticationAPI.Models
             }
             catch (Exception)
             {
-                
+
             }
 
-            this.Command.CommandText = ""; 
+            this.Command.CommandText = "";
 
             return isInTable;
         }
-
-
     }
 }

@@ -15,16 +15,14 @@ namespace AuthenticationAPI.Controllers
         [Route("api/v1/login")]
         public IHttpActionResult Auth([FromBody] LoginRequestModel loginrequest)
         {
-            Dictionary<string, string> autenticacion = loginrequest.LoginRequest();
+            Dictionary<string, string> authentication = loginrequest.LoginRequest();
 
-            if (autenticacion["resultado"] == "OK")
+            if (authentication["resultado"] == "OK")
             {
-                return Content(HttpStatusCode.OK, autenticacion);
+                return Content(HttpStatusCode.OK, authentication);
             }
-            else
-            { 
-                return Unauthorized();
-            }
+
+            return Unauthorized();
         }
 
     }
