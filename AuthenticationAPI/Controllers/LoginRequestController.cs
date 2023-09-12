@@ -10,13 +10,19 @@ using System.Web.Http;
 namespace AuthenticationAPI.Controllers
 {
 
+    [RoutePrefix("api/v1")]
     public class LoginRequestController : ApiController
     {
-        [Route("api/v1/login")]
+        [HttpPost]
+        [Route("login")]
         public IHttpActionResult Auth([FromBody] LoginRequestModel loginrequest)
         {
             Dictionary<string, string> authentication = loginrequest.LoginRequest();
 
+            if (!ModelState.IsValid)
+            {
+                return Unauthorized();
+            }
             if (authentication["resultado"] == "OK")
             {
                 return Content(HttpStatusCode.OK, authentication);
@@ -24,6 +30,5 @@ namespace AuthenticationAPI.Controllers
 
             return Unauthorized();
         }
-
     }
 }

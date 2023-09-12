@@ -11,15 +11,22 @@ namespace AuthenticationAPI.Models
 {
     public class LoginRequestModel : DatabaseConnector
     {
-        [Required]
+        [Required(ErrorMessage = "El nombre de usuario es obligatorio.")]
         public string UserName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "La contraseña es obligatoria.")]
         public string Password { get; set; }
 
 
         public Dictionary<string, string> LoginRequest()
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
+
+            if (string.IsNullOrEmpty(this.Password) || string.IsNullOrEmpty(this.UserName))
+            {
+                result.Add("resultado", "Error");
+                result.Add("mensaje", "Datos obligatorios.");
+                return result;
+            }
 
             this.Command.CommandText = $"SELECT pass, id FROM trabajador WHERE username = '{this.UserName}'";
             this.Reader = this.Command.ExecuteReader();
@@ -28,7 +35,7 @@ namespace AuthenticationAPI.Models
             {
                 this.Reader.Read();
                 string dbPassword = this.Reader["pass"].ToString();
-                int userId = Convert.ToInt32(this.Reader["id"]); // Obtén el ID del usuario
+                int userId = Convert.ToInt32(this.Reader["id"]);
 
                 if (Hash.Content(this.Password) == dbPassword)
                 {
