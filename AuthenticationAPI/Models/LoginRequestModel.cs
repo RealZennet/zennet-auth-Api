@@ -40,6 +40,7 @@ namespace AuthenticationAPI.Models
                 if (Hash.Content(this.Password) == dbPassword)
                 {
                     result.Add("resultado", "OK");
+                    result.Add("id", userId.ToString());
 
                     if (IsInTable("camionero", userId, "id_camionero"))
                     {
@@ -88,5 +89,6 @@ namespace AuthenticationAPI.Models
 
             return isInTable;
         }
+
     }
 }
